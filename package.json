@@ -10,6 +10,7 @@
     "build:css": "tailwindcss -i ./src/input.css -o ./public/output.css --minify",
     "build:js": "esbuild src/app.js --bundle --minify --outfile=public/app.js",
     "build": "yarn build:css && yarn build:js",
+    "dev": "concurrently \"yarn dev:css\" \"yarn dev:js\" \"yarn serve\"",
     "dev:css": "tailwindcss -i ./src/input.css -o ./public/output.css --watch",
     "dev:js": "esbuild src/app.js --bundle --outfile=public/app.js --watch",
     "serve": "http-server public -p 8080 -o"
@@ -17,6 +18,7 @@
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.17",
     "autoprefixer": "^10.4.22",
+    "concurrently": "^8.2.2",
     "esbuild": "^0.27.0",
     "http-server": "^14.1.1",
     "postcss": "^8.5.6",
