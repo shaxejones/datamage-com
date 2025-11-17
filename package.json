@@ -13,7 +13,7 @@
     "dev": "concurrently \"yarn dev:css\" \"yarn dev:js\" \"yarn serve\"",
     "dev:css": "tailwindcss -i ./src/input.css -o ./public/output.css --watch",
     "dev:js": "esbuild src/app.js --bundle --outfile=public/app.js --watch",
-    "serve": "http-server public -p 8080 -o"
+    "serve": "serve public -l 8080 -s"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.17",
@@ -23,6 +23,7 @@
     "esbuild": "^0.27.0",
     "http-server": "^14.1.1",
     "postcss": "^8.5.6",
+    "serve": "^14.2.5",
     "tailwindcss": "^4.1.17"
   },
   "dependencies": {
