@@ -3,92 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DataMage</title>
+    <title>datamage</title>
     <link rel="stylesheet" href="/output.css">
     <style>
         [x-cloak] { display: none !important; }
+        .logo { 
+            font-size: 2rem; 
+        }
+        @media (min-width: 768px) {
+            .logo { 
+                font-size: 3rem; 
+            }
+        }
     </style>
 </head>
-<body class="bg-gray-50">
-    <div class="min-h-screen flex items-center justify-center p-4">
-        <div class="max-w-md w-full">
-            <!-- Alpine.js Component Example -->
-            <div x-data="{ count: 0, message: 'Welcome to DataMage!' }" class="bg-white rounded-lg shadow-lg p-8">
-                <h1 class="text-4xl font-bold text-center text-blue-600 mb-4" x-text="message"></h1>
-                
-                <div class="text-center mb-6">
-                    <p class="text-gray-600 mb-2">Built with Tailwind CSS + Alpine.js</p>
-                    <p class="text-sm text-gray-500">Click the button to increment the counter</p>
-                </div>
-
-                <div class="flex items-center justify-center gap-4 mb-6">
-                    <button 
-                        @click="count--" 
-                        class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-200"
-                    >
-                        -
-                    </button>
-                    
-                    <span class="text-3xl font-bold text-gray-800 min-w-[60px] text-center" x-text="count"></span>
-                    
-                    <button 
-                        @click="count++" 
-                        class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-200"
-                    >
-                        +
-                    </button>
-                </div>
-
-                <div class="text-center">
-                    <button 
-                        @click="count = 0" 
-                        class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-6 rounded transition duration-200"
-                    >
-                        Reset
-                    </button>
-                </div>
-
-                <div class="mt-6 p-4 bg-blue-50 rounded-lg">
-                    <p class="text-sm text-gray-700 text-center">
-                        This is a demo app showcasing 
-                        <span class="font-semibold text-blue-600">Tailwind CSS v4</span> 
-                        styling with 
-                        <span class="font-semibold text-blue-600">Alpine.js v3</span> 
-                        reactivity
-                    </p>
-                </div>
-            </div>
-
-            <!-- Supabase Blog Demo -->
-            <div x-data="blogList()" class="bg-white rounded-lg shadow-lg p-8 mt-8">
-                <h2 class="text-3xl font-bold text-center text-purple-600 mb-6">Recent Blogs</h2>
-                
-                <div x-show="loading" class="text-center text-gray-500">
-                    Loading blogs...
-                </div>
-
-                <div x-show="error" x-cloak class="text-center text-red-500" x-text="error"></div>
-
-                <div x-show="!loading && !error && blogs.length === 0" x-cloak class="text-center text-gray-500">
-                    No blogs yet. Add some in your Supabase dashboard!
-                </div>
-
-                <ul class="space-y-4">
-                    <template x-for="blog in blogs" :key="blog.id">
-                        <li class="border-l-4 border-purple-500 pl-4 py-2">
-                            <h3 class="text-xl font-semibold text-gray-800" x-text="blog.title"></h3>
-                            <p class="text-sm text-gray-600 mt-1" x-text="blog.excerpt"></p>
-                            <p class="text-xs text-gray-400 mt-2" x-text="new Date(blog.created_at).toLocaleDateString()"></p>
-                        </li>
-                    </template>
-                </ul>
+<body class="bg-white" x-data="app()">
+    <!-- Header -->
+    <header class="border-b border-gray-200">
+        <div class="w-full md:max-w-4xl md:mx-auto px-4 md:px-6 py-3 md:py-4">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <h1 class="logo font-semibold text-black">datamage</h1>
+                <nav class="flex gap-6 md:gap-8">
+                    <a href="/" @click.prevent="navigate('/')" 
+                       :class="currentPage === 'services' ? 'text-black font-semibold' : 'text-gray-500 hover:text-black'"
+                       class="text-sm md:text-base transition-colors">services</a>
+                    <a href="/projects" @click.prevent="navigate('/projects')" 
+                       :class="currentPage === 'projects' ? 'text-black font-semibold' : 'text-gray-500 hover:text-black'"
+                       class="text-sm md:text-base transition-colors">projects</a>
+                    <a href="/blog" @click.prevent="navigate('/blog')" 
+                       :class="currentPage === 'blog' ? 'text-black font-semibold' : 'text-gray-500 hover:text-black'"
+                       class="text-sm md:text-base transition-colors">blog</a>
+                </nav>
             </div>
         </div>
-    </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="w-full px-4 md:px-6">
+        <!-- Services Page (Home) -->
+        <div x-show="currentPage === 'services'">
+            <!-- Hero Section -->
+            <section class="text-center py-16 md:py-40 max-w-5xl mx-auto">
+                <h2 class="text-4xl md:text-6xl lg:text-7xl font-semibold text-black mb-8 leading-[1.05] tracking-tight">
+                    Custom software.<br />Solve your business problems.
+                </h2>
+                <p class="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto font-light">
+                    Starting at $90/hour
+                </p>
+            </section>
+
+            <!-- Value Statement - Staggered Layout -->
+            <div class="py-12 md:py-24 max-w-6xl mx-auto space-y-12 md:space-y-24">
+                <!-- Left aligned -->
+                <section class="text-left md:ml-0 max-w-2xl">
+                    <h3 class="text-4xl md:text-6xl font-semibold text-black mb-6 leading-tight">
+                        Fast & efficient.
+                    </h3>
+                    <p class="text-lg md:text-xl text-gray-600 font-light leading-relaxed">
+                        Production-ready solutions delivered quickly. No unnecessary complexity.
+                    </p>
+                </section>
+
+                <!-- Right aligned -->
+                <section class="text-left md:ml-auto max-w-2xl">
+                    <h3 class="text-4xl md:text-6xl font-semibold text-black mb-6 leading-tight">
+                        Cost-effective.
+                    </h3>
+                    <p class="text-lg md:text-xl text-gray-600 font-light leading-relaxed">
+                        Smart architecture. The right tools. No over-engineering.
+                    </p>
+                </section>
+
+                <!-- Left aligned -->
+                <section class="text-left md:ml-0 max-w-2xl">
+                    <h3 class="text-4xl md:text-6xl font-semibold text-black mb-6 leading-tight">
+                        Full stack.
+                    </h3>
+                    <p class="text-lg md:text-xl text-gray-600 font-light leading-relaxed">
+                        Database to frontend. One engineer who sees the whole picture.
+                    </p>
+                </section>
+            </div>
+
+            <!-- Specialties -->
+            <section class="text-center py-16 md:py-32 max-w-3xl mx-auto border-t border-gray-200">
+                <h3 class="text-3xl md:text-5xl font-semibold text-black mb-16">What can I do for you?</h3>
+                <ul class="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-8 text-lg md:text-xl text-gray-700 max-w-4xl mx-auto">
+                    <li>• Custom business applications</li>
+                    <li>• Internal tools and dashboards</li>
+                    <li>• Data collection & reporting platforms</li>
+                    <li>• Workflow automation systems</li>
+                    <li>• Online customer portals</li>
+                    <li>• Service booking & scheduling platforms</li>
+                    <li>• Membership or subscription platforms</li>
+                    <li>• Online storefronts and checkout systems</li>
+                    <li>• Invoicing and payment portals</li>
+                    <li>• Order management systems</li>
+                    <li>• Inventory and asset management tools</li>
+                    <li>• Employee or vendor management portals</li>
+                    <li>• Modernizing outdated systems</li>
+                    <li>• API development & system integrations</li>
+                    <li>• Process digitization</li>
+                    <li>• High-performance marketing websites</li>
+                    <li>• Lead capture & CRM-integrated websites</li>
+                    <li>• Content management systems</li>
+                </ul>
+            </section>
+
+            <!-- CTA -->
+            <section class="text-center py-20 md:py-40 border-t border-gray-200">
+                <h3 class="text-4xl md:text-6xl font-semibold text-black mb-12">Let's build<br>something together.</h3>
+                <a href="mailto:datamage.consulting@proton.me" 
+                   class="inline-block px-10 py-4 bg-black text-white text-lg font-semibold rounded-full hover:bg-gray-800 transition-colors">
+                    Get in touch
+                </a>
+            </section>
+        </div>
+
+        <!-- Blog Page -->
+        <div x-show="currentPage === 'blog'" x-data="blogList()" class="py-8 md:py-12 max-w-4xl mx-auto">
+            <!-- Loading State -->
+            <div x-show="loading" class="text-gray-500">
+                Loading...
+            </div>
+
+            <!-- Error State -->
+            <div x-show="error" x-cloak class="text-black" x-text="error"></div>
+
+            <!-- Empty State -->
+            <div x-show="!loading && !error && blogs.length === 0" x-cloak class="text-gray-500">
+                No posts yet.
+            </div>
+
+            <!-- Blog List -->
+            <div x-show="!loading && blogs.length > 0" x-cloak class="space-y-8 md:space-y-12">
+                <template x-for="blog in blogs" :key="blog.id">
+                    <article class="border-b border-gray-200 pb-8 md:pb-12">
+                        <h2 class="text-2xl md:text-3xl font-bold text-black mb-2 md:mb-3" x-text="blog.title"></h2>
+                        <time class="text-xs md:text-sm text-gray-500 block mb-3 md:mb-4" x-text="new Date(blog.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })"></time>
+                        <div class="prose prose-sm md:prose prose-neutral max-w-none text-black leading-relaxed mb-3 md:mb-4" x-html="blog.html_content"></div>
+                        <p class="text-sm md:text-base text-gray-700 leading-relaxed" x-text="blog.excerpt"></p>
+                    </article>
+                </template>
+            </div>
+        </div>
+
+        <!-- Projects Page -->
+        <div x-show="currentPage === 'projects'" x-data="projectList()" x-cloak class="py-8 md:py-12 max-w-4xl mx-auto">
+            <!-- Loading State -->
+            <div x-show="loading" class="text-gray-500">
+                Loading...
+            </div>
+
+            <!-- Error State -->
+            <div x-show="error" class="text-black" x-text="error"></div>
+
+            <!-- Empty State -->
+            <div x-show="!loading && !error && projects.length === 0" class="text-gray-500">
+                No projects yet.
+            </div>
+
+            <!-- Projects List -->
+            <div x-show="!loading && projects.length > 0" class="space-y-8 md:space-y-12">
+                <template x-for="project in projects" :key="project.id">
+                    <article class="border-b border-gray-200 pb-8 md:pb-12">
+                        <h2 class="text-2xl md:text-3xl font-bold text-black mb-2 md:mb-3" x-text="project.title"></h2>
+                        <div class="flex flex-wrap gap-2 mb-3 md:mb-4" x-show="project.tags && project.tags.length > 0">
+                            <template x-for="tag in project.tags" :key="tag">
+                                <span class="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded" x-text="tag"></span>
+                            </template>
+                        </div>
+                        <p class="text-sm md:text-base text-gray-700 leading-relaxed mb-3 md:mb-4" x-text="project.description"></p>
+                        <div class="flex gap-4 text-sm">
+                            <a x-show="project.web_url" :href="project.web_url" target="_blank" class="text-black hover:underline">view site →</a>
+                            <a x-show="project.github_url" :href="project.github_url" target="_blank" class="text-black hover:underline">github →</a>
+                        </div>
+                    </article>
+                </template>
+            </div>
+        </div>
+    </main>
 
     <!-- Alpine.js bundled with the application -->
     <script>
-        // Define blogList before loading Alpine
+        // Main app state
+        window.app = function() {
+            return {
+                currentPage: 'services',
+                init() {
+                    this.setPageFromURL();
+                    window.addEventListener('popstate', () => {
+                        this.setPageFromURL();
+                    });
+                },
+                setPageFromURL() {
+                    const path = window.location.pathname;
+                    if (path === '/blog') {
+                        this.currentPage = 'blog';
+                    } else if (path === '/projects') {
+                        this.currentPage = 'projects';
+                    } else {
+                        this.currentPage = 'services';
+                    }
+                },
+                navigate(path) {
+                    window.history.pushState({}, '', path);
+                    this.setPageFromURL();
+                }
+            }
+        }
+
+        // Blog list component
         window.blogList = function() {
             return {
                 blogs: [],
@@ -106,13 +231,44 @@
                             .from('blog')
                             .select('*')
                             .order('created_at', { ascending: false })
-                            .limit(5);
+                            .limit(10);
                         
                         if (error) throw error;
                         this.blogs = data || [];
                     } catch (err) {
                         this.error = err.message;
                         console.error('Error fetching blogs:', err);
+                    } finally {
+                        this.loading = false;
+                    }
+                }
+            }
+        }
+
+        // Project list component
+        window.projectList = function() {
+            return {
+                projects: [],
+                loading: true,
+                error: null,
+                async init() {
+                    if (typeof window.supabase === 'undefined') {
+                        this.error = 'Supabase client not initialized';
+                        this.loading = false;
+                        return;
+                    }
+                    
+                    try {
+                        const { data, error } = await window.supabase
+                            .from('project')
+                            .select('*')
+                            .order('created_at', { ascending: false });
+                        
+                        if (error) throw error;
+                        this.projects = data || [];
+                    } catch (err) {
+                        this.error = err.message;
+                        console.error('Error fetching projects:', err);
                     } finally {
                         this.loading = false;
                     }
