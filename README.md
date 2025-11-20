@@ -1,4 +1,4 @@
-# DataMage
+# datamage landing site
 
 A modern client-side application built with **Tailwind CSS v4** and **Alpine.js v3**, managed with Yarn, and ready to deploy on Vercel.
 
