@@ -8,18 +8,30 @@
     <style>
         [x-cloak] { display: none !important; }
         .logo { 
-            font-size: 2rem; 
+            font-size: 2rem;
+            text-shadow: 
+                -1.2px -1.2px 0 #0084c2,
+                1.2px -1.2px 0 #0084c2,
+                -1.2px 1.2px 0 #0084c2,
+                1.2px 1.2px 0 #0084c2,
+                -1.2px 0 0 #0084c2,
+                1.2px 0 0 #0084c2,
+                0 -1.2px 0 #0084c2,
+                0 1.2px 0 #0084c2;
         }
         @media (min-width: 768px) {
             .logo { 
                 font-size: 3rem; 
             }
         }
+        .header-border {
+            box-shadow: 0 1px 8px rgba(0, 132, 194, 0.6);
+        }
     </style>
 </head>
 <body class="bg-white" x-data="app()">
     <!-- Header -->
-    <header class="border-b border-gray-200">
+    <header class="border-b border-gray-200 header-border">
         <div class="w-full md:max-w-4xl md:mx-auto px-4 md:px-6 py-3 md:py-4">
             <div class="flex flex-wrap items-center justify-between gap-3">
                 <h1 class="logo font-semibold text-black">datamage</h1>
